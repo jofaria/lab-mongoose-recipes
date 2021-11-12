@@ -8,6 +8,12 @@ const data = require("./data.json");
 const MONGODB_URI = "mongodb://localhost:27017/recipe-app";
 
 // Connection to the database "recipe-app"
+
+async function runProgram() {}
+
+// TODO
+
+/*
 mongoose
   .connect(MONGODB_URI, {
     useCreateIndex: true,
@@ -65,3 +71,4 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to the database", error);
   });
+*/
