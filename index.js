@@ -22,7 +22,7 @@ mongoose
   })
   .then(() => {
     // CREATE
-    // firstRecipe = data[0];
+    // const firstRecipe = data[0];
     // return Recipe.create(firstRecipe);
   })
   .then((createdRecipe) => {
@@ -55,7 +55,7 @@ mongoose
     return deletedRecipe;
   })
   .then((deleted) => {
-    console.log("Success! You have successfully deleted Carrot Cake.", deleted);
+    console.log("Success! You deleted Carrot Cake.", deleted);
 
     return mongoose.connection.close();
   })

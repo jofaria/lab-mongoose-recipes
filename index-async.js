@@ -9,66 +9,48 @@ const MONGODB_URI = "mongodb://localhost:27017/recipe-app";
 
 // Connection to the database "recipe-app"
 
-async function runProgram() {}
+// TODO: convert then/catch to async/await
 
-// TODO
+async function runProgram() {
+  try {
+    const self = await mongoose.connect(MONGODB_URI, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    });
 
-/*
-mongoose
-  .connect(MONGODB_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
-  .then((self) => {
-    console.log(`Connected to the database: "${self.connection.name}"`);
-    // Before adding any recipes to the database, let's remove all existing ones
-    return Recipe.deleteMany();
-  })
-  .then(() => {
+    console.log(`Connected to the database: "${self.connection.name}`);
+
+    const clearingDatabase = await Recipe.deleteMany();
+
     // CREATE
-    // firstRecipe = data[0];
-    // return Recipe.create(firstRecipe);
-  })
-  .then((createdRecipe) => {
+    // const firstRecipe = data[0];
+    // const createdRecipe = await Recipe.create(firstRecipe);
     // console.log(createdRecipe.title);
-  })
-  .then(() => {
-    return Recipe.insertMany(data);
-  })
-  .then((entireDatabase) => {
+
+    const entireDatabase = await Recipe.insertMany(data);
+
     entireDatabase.forEach((elem) => {
       console.log(elem.title);
     });
-    return entireDatabase;
-  })
-  .then((entireDatabase) => {
-    // console.log(entireDatabase);
 
-    const updatedRigatoni = Recipe.findOneAndUpdate(
+    const updatedRigatoni = await Recipe.findOneAndUpdate(
       { title: "Rigatoni alla Genovese" },
       {
         duration: 100,
       },
       { new: true }
     );
-    // return updatedRigatoni;
-    return entireDatabase;
-  })
-  .then((entireDatabase) => {
-    const deletedRecipe = Recipe.deleteOne({ title: "Carrot Cake" });
-    return deletedRecipe;
-  })
-  .then((deleted) => {
-    console.log("Success! You have successfully deleted Carrot Cake.", deleted);
 
-    return mongoose.connection.close();
-  })
-  .then(() => {
+    const deletedRecipe = await Recipe.deleteOne({ title: "Carrot Cake" });
+    console.log("Success! You deleted Carrot Cake.");
+
+    const closing = await mongoose.connection.close();
     console.log("Connection closed!");
-  })
-  .catch((error) => {
-    console.error("Error connecting to the database", error);
-  });
-*/
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+runProgram();
